@@ -83,14 +83,14 @@ export function AppHeader() {
               <Button variant="ghost" className="relative h-10 w-auto px-2">
                 <div className="flex items-center space-x-2">
                   <Avatar className="h-8 w-8">
-                    <AvatarImage src="" alt={user?.name} />
+                    <AvatarImage src="" alt={user?.full_name} />
                     <AvatarFallback className="text-xs">
-                      {user?.name ? getInitials(user.name) : 'U'}
+                      {user?.full_name ? getInitials(user.full_name) : 'U'}
                     </AvatarFallback>
                   </Avatar>
                   <div className="hidden md:flex flex-col items-start text-left">
                     <p className="text-sm font-medium leading-none">
-                      {user?.name || 'User'}
+                      {user?.full_name || 'User'}
                     </p>
                     <div className="flex items-center space-x-1">
                       <Badge 
@@ -108,7 +108,7 @@ export function AppHeader() {
               <DropdownMenuLabel className="font-normal">
                 <div className="flex flex-col space-y-1">
                   <p className="text-sm font-medium leading-none">
-                    {user?.name}
+                    {user?.full_name}
                   </p>
                   <p className="text-xs leading-none text-muted-foreground">
                     {user?.email}

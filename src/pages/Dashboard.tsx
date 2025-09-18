@@ -117,7 +117,7 @@ export default function Dashboard() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">
-            {getGreeting()}, {user?.name}! 👋
+            {getGreeting()}, {user?.full_name}! 👋
           </h1>
           <p className="text-muted-foreground mt-2">
             Selamat datang di dashboard Sahasik. Mari mulai hari yang produktif!

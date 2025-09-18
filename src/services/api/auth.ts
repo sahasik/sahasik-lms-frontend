@@ -1,12 +1,20 @@
 import { authAPI } from '@/lib/axios';
-import { LoginRequest, LoginResponse, ValidateResponse, RefreshRequest } from '@/types/auth';
+import { LoginRequest, LoginResponse, ValidateResponse, RefreshRequest, User } from '@/types/auth';
 
 export const authService = {
   /**
-   * Login user with email and password
+   * Login user with credentials
    */
   async login(credentials: LoginRequest): Promise<LoginResponse> {
     const response = await authAPI.post<LoginResponse>('/auth/login', credentials);
+    return response.data;
+  },
+
+  /**
+   * Get user profile
+   */
+  async getProfile(): Promise<User> {
+    const response = await authAPI.get<User>('/auth/profile');
     return response.data;
   },
 

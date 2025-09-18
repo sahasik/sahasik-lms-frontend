@@ -8,7 +8,7 @@ interface AuthContextType {
   user: User | null;
   isLoading: boolean;
   isAuthenticated: boolean;
-  login: (email: string, password: string) => Promise<void>;
+  login: (username: string, email: string, password: string) => Promise<void>;
   logout: () => void;
   refetch: () => Promise<void>;
 }
@@ -54,10 +54,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
-  const login = async (email: string, password: string) => {
+  const login = async (username: string, email: string, password: string) => {
     try {
       setIsLoading(true);
-      const response = await authService.login({ email, password });
+      const response = await authService.login({ 
+        username, 
+        email, 
+        password, 
+        role: 'admin' // This will be determined by backend
+      });
       
       setAccessToken(response.access_token);
       // Note: refresh_token should be set by backend as httpOnly cookie
@@ -68,13 +73,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       
       toast({
         title: 'Berhasil masuk',
-        description: `Selamat datang kembali, ${response.user.name}!`,
+        description: `Selamat datang kembali, ${response.user.full_name}!`,
       });
     } catch (error) {
       console.error('Login failed:', error);
       toast({
         title: 'Gagal masuk',
-        description: 'Email atau kata sandi tidak valid',
+        description: 'Username, email atau kata sandi tidak valid',
         variant: 'destructive',
       });
       throw error;

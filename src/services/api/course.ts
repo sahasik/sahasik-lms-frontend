@@ -9,24 +9,25 @@ import {
 
 export const courseService = {
   /**
-   * Get paginated list of courses with optional filters
+   * Get all courses
    */
-  async getCourses(filters: CourseFilters = {}): Promise<CourseListResponse> {
-    const params = new URLSearchParams();
-    
-    if (filters.limit) params.append('limit', filters.limit.toString());
-    if (filters.page) params.append('page', filters.page.toString());
-    if (filters.q) params.append('q', filters.q);
-    if (filters.category) params.append('category', filters.category);
+  async getCourses(): Promise<Course[]> {
+    const response = await courseAPI.get<Course[]>('/courses');
+    return response.data;
+  },
 
-    const response = await courseAPI.get<CourseListResponse>(`/courses?${params.toString()}`);
+  /**
+   * Search courses with query
+   */
+  async searchCourses(query: string): Promise<Course[]> {
+    const response = await courseAPI.get<Course[]>(`/courses/search?q=${encodeURIComponent(query)}`);
     return response.data;
   },
 
   /**
    * Get single course by ID
    */
-  async getCourse(id: string): Promise<Course> {
+  async getCourse(id: number): Promise<Course> {
     const response = await courseAPI.get<Course>(`/courses/${id}`);
     return response.data;
   },
@@ -42,7 +43,7 @@ export const courseService = {
   /**
    * Update existing course
    */
-  async updateCourse(id: string, courseData: UpdateCourseRequest): Promise<Course> {
+  async updateCourse(id: number, courseData: UpdateCourseRequest): Promise<Course> {
     const response = await courseAPI.put<Course>(`/courses/${id}`, courseData);
     return response.data;
   },
@@ -50,7 +51,7 @@ export const courseService = {
   /**
    * Delete course
    */
-  async deleteCourse(id: string): Promise<void> {
+  async deleteCourse(id: number): Promise<void> {
     await courseAPI.delete(`/courses/${id}`);
   },
 };

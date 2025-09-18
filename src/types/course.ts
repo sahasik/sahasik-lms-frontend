@@ -1,21 +1,29 @@
 export interface Course {
-  id: string;
-  title: string;
+  id: number;
+  name: string;
+  code: string;
   description: string;
-  category: string;
-  teacher_id: string;
-  created_at: string;
+  credits: number;
+  level: 'beginner' | 'intermediate' | 'advanced';
+  created_at?: string;
   updated_at?: string;
 }
 
 export interface CreateCourseRequest {
-  title: string;
+  name: string;
+  code: string;
   description: string;
-  category: string;
-  teacher_id: string;
+  credits: number;
+  level: 'beginner' | 'intermediate' | 'advanced';
 }
 
-export interface UpdateCourseRequest extends Partial<CreateCourseRequest> {}
+export interface UpdateCourseRequest {
+  name?: string;
+  code?: string;
+  description?: string;
+  credits?: number;
+  level?: 'beginner' | 'intermediate' | 'advanced';
+}
 
 export interface CourseListResponse {
   data: Course[];
@@ -31,5 +39,5 @@ export interface CourseFilters {
   limit?: number;
   page?: number;
   q?: string;
-  category?: string;
+  level?: string;
 }

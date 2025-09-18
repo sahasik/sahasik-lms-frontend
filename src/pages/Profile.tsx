@@ -23,7 +23,7 @@ import {
 } from 'lucide-react';
 
 const profileSchema = z.object({
-  name: z
+  full_name: z
     .string()
     .min(1, 'Nama wajib diisi')
     .min(2, 'Nama minimal 2 karakter'),
@@ -48,7 +48,7 @@ export default function Profile() {
   } = useForm<ProfileForm>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
-      name: user?.name || '',
+      full_name: user?.full_name || '',
       email: user?.email || '',
     },
   });
@@ -128,9 +128,9 @@ export default function Profile() {
               <div className="flex flex-col items-center space-y-4">
                 <div className="relative">
                   <Avatar className="w-24 h-24">
-                    <AvatarImage src="" alt={user?.name} />
+                    <AvatarImage src="" alt={user?.full_name} />
                     <AvatarFallback className="text-xl bg-gradient-primary text-white">
-                      {user?.name ? getInitials(user.name) : 'U'}
+                      {user?.full_name ? getInitials(user.full_name) : 'U'}
                     </AvatarFallback>
                   </Avatar>
                   <Button 
@@ -142,7 +142,7 @@ export default function Profile() {
                   </Button>
                 </div>
                 <div className="text-center">
-                  <h3 className="text-xl font-semibold">{user?.name}</h3>
+                  <h3 className="text-xl font-semibold">{user?.full_name}</h3>
                   <p className="text-muted-foreground">{user?.email}</p>
                   <Badge 
                     variant={getRoleBadgeVariant(user?.role || 'student')}
@@ -210,19 +210,19 @@ export default function Profile() {
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <Label htmlFor="name">Nama Lengkap</Label>
+                    <Label htmlFor="full_name">Nama Lengkap</Label>
                     <div className="relative">
                       <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                       <Input
-                        id="name"
-                        {...register('name')}
+                        id="full_name"
+                        {...register('full_name')}
                         disabled={!isEditing}
                         className={`pl-10 ${!isEditing ? 'bg-muted/50' : ''}`}
                         placeholder="Masukkan nama lengkap"
                       />
                     </div>
-                    {errors.name && (
-                      <p className="text-sm text-destructive">{errors.name.message}</p>
+                    {errors.full_name && (
+                      <p className="text-sm text-destructive">{errors.full_name.message}</p>
                     )}
                   </div>
 

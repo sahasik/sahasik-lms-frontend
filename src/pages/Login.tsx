@@ -13,6 +13,9 @@ import { useAuth } from '@/contexts/AuthContext';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
 
 const loginSchema = z.object({
+  username: z
+    .string()
+    .min(1, 'Username wajib diisi'),
   email: z
     .string()
     .min(1, 'Email wajib diisi')
@@ -54,7 +57,7 @@ export default function Login() {
 
   const onSubmit = async (data: LoginForm) => {
     try {
-      await login(data.email, data.password);
+      await login(data.username, data.email, data.password);
     } catch (error) {
       // Error is handled in AuthContext
     }
@@ -115,11 +118,25 @@ export default function Login() {
             <CardContent>
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 <div className="space-y-2">
+                  <Label htmlFor="username">Username</Label>
+                  <Input
+                    id="username"
+                    type="text"
+                    placeholder="admin"
+                    {...register('username')}
+                    className={errors.username ? 'border-destructive' : ''}
+                  />
+                  {errors.username && (
+                    <p className="text-sm text-destructive">{errors.username.message}</p>
+                  )}
+                </div>
+
+                <div className="space-y-2">
                   <Label htmlFor="email">Email</Label>
                   <Input
                     id="email"
                     type="email"
-                    placeholder="nama@contoh.com"
+                    placeholder="admin@pesantren.com"
                     {...register('email')}
                     className={errors.email ? 'border-destructive' : ''}
                   />
@@ -173,7 +190,7 @@ export default function Login() {
                 </Button>
 
                 <div className="text-center text-sm text-muted-foreground">
-                  Demo credentials: teacher@sahasik.com / password123
+                  Demo: admin / admin@pesantren.com / Admin123!@#
                 </div>
               </form>
             </CardContent>
